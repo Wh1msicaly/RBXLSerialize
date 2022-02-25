@@ -72,9 +72,8 @@ Default number type is float, unless specified as other than 'number'.
 ## Limitations 
 
 1. No value including isntancedata exceed 255bytes.
-2. No standard encoding for EnumItmes.
-3. No backwards compatability or version/identification header.
-4. Inability to differentiate instances with the same name.
+2. No backwards compatability or version/identification header.
+3. Inability to differentiate instances with the same name.
 
 
 .
