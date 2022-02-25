@@ -24,7 +24,7 @@ local Instance = RBLXSerialize.Decode(BinaryString,IsCompressed)
 |--|--|
 | RBXLSerialize.UseBase92 | Set to true by default, determines weather the raw binary is encoded into base92. |
 | RBXLSerialize.SaveCFrames | Set to false by default, determines if CFrames are saved while encoding instances. |
-
+| RBXLSerialize.AutoRename | Set to false by default, automatically renames instances with the same name and parent.  |
 
 ## Support
 * String
