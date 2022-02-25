@@ -1,9 +1,9 @@
 local Compressor = require(script.Compress)
---- STUPID
+---
 local RBLXSerialize = {
 	_IDENTITY = "RBLXSerialize",
 	_AUTHOR = "Whim#2127",
-	_VERSION = "v0.6",
+	_VERSION = "v0.7",
 	_DESCRIPTION = "A All-In-One Roblox instance and datatype serializer.",
 	_LICENSE = [[
     MIT LICENSE
@@ -28,7 +28,7 @@ local RBLXSerialize = {
 	Convertors = require(script.Convertors),
 	SaveCFrames = false, 
 	UseBase92 = true, 
-	SaveSource = true,
+	AutoRename = false, 
 	Encode = function(classOrDataType, shouldCompress : bool)end,
 	Decode = function(encodedString : string, isCompressed :bool)end
 } 
@@ -43,6 +43,7 @@ local FetchApi = function()
 	API.throw = throw  
 	API.SaveCFrames = RBLXSerialize.SaveCFrames
 	API.SaveSource = RBLXSerialize.SaveSource 
+	API.AutoRename = RBLXSerialize.AutoRename 
 	if (not apiFetched) then
 		apiFetched = true
 		local success, returnVal = pcall(function()

@@ -58,21 +58,49 @@ return function(API,instance,instances)
 							continue
 						end
 					end
-
+					
+					--EnumCheck! 
+					local EnumData = API.EnumsByName[propInfo.ValueType]
+					if EnumData then
+						local EnumItemConvertor = convertors["EnumItem"] 
+						if EnumItemConvertor then  
+							local Encoded = EnumItemConvertor(true,API,EnumData.Name,instance[propInfo.Name])
+							if Encoded then 
+								InstanceString =InstanceString.. Binary.describe("ValueType",propInfo.Name)..Binary.describe("Value",Encoded)
+							
+								continue
+							end
+						end
+					end
+					
 					if instances then 
-						if propInfo.ValueType == "Class:PVInstance" or propInfo.ValueType == "Class:BasePart" then 
+						local SuperClassName = nil 
+
+						if propInfo.ValueType and propInfo.ValueType:find(":") then 
+							local superClass = propInfo.ValueType:match(":(.*)")
+							if superClass then 
+								local Class =  API.ClassesByName[superClass]
+								if Class and Class.Superclass then 
+									SuperClassName = Class.Superclass.Name
+								end
+							end
+						end	
+
+						if propInfo.ValueType == "Class:PVInstance" or SuperClassName == "Instance" or SuperClassName == "PVInstance" then  
 							local referenceInstance = instance[propInfo.Name]
 							if typeof(referenceInstance) == "Instance" then
 								if referenceInstance:IsDescendantOf(instances) then 
 									local ParentSearch = searchForParent(instances,referenceInstance) 
 									local CylicRoot = generateRoot(ParentSearch)..referenceInstance.Name
+									
+									
 									InstanceString =InstanceString.. Binary.describe("ValueType",propName)..Binary.describe("Value",CylicRoot)	
 									continue
 								end
 							end 
 						end				 
 					end
-					
+
 					local convertor = convertors[propInfo.ValueType] 
 					if convertor then 
 						local encodedValue = convertor(true,instance[propInfo.Name])

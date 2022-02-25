@@ -146,6 +146,7 @@ function BuildEnums(api)
 			enums[#enums + 1] = item
 			enumsByName[item.Name] = item
 			item.EnumItems = {}
+			item.ItemID = #enums 
 		end
 	end
 

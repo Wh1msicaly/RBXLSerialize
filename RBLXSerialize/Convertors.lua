@@ -1,5 +1,4 @@
 -- This is were the magic happens!
-
 function splitbyte(input)
 	local byte,p,flags = string.byte(input),128,{false,false,false,false,false,false,false,false}
 	for i=1,8 do
@@ -27,8 +26,10 @@ end
 function getNativeSize(forceType) 
 	return #string.pack(forceType or valueType ,1) 
 end
---- Nice Binary Functions^^^^^^^^^^^
+--- Nice Binary Functions^^^^^^^^^^ Lazy formatting/macros
 
+
+--  Kept this cacheing for backwards compatability.
 local EnumStorage = {} 
 local cache = function(storage,enum) 
 	local Table  = {}
@@ -42,8 +43,23 @@ for i,enum in ipairs(Enum:GetEnums()) do
 	cache(EnumStorage,enum)
 end
 
---Class:PVInstance
+
 return {
+	-- Comment for other developers who want to make their own serizliers!
+	-- This is stupid complicated, alot of contextual information is used to make this work 
+	-- Instance -> Propertyname -> Class -> Class.Name | SubEnum -> EnumValue 
+	-- or  Instance|[PropertyName->ClassName(APIInstance[PropertyName].Class)][Value] (as little as 5bytes!)
+	-- Irregular Conversion ! < More Context > , certain value are contextual such as SubEnum[PropertyName/Class]
+	--ENCODE: Store EnumValue, SubEnum is contextual. 
+	--DECODE: Index = Enum[SubEnum] | EnumStorage [ Index ] [ EnumValue ] - > Enum[SubEnum][EnumValue]	
+	["EnumItem"] = function(isClass,API,SubEnum,EnumValue) 
+		if isClass then 
+			return string.pack("I2",EnumValue.Value)
+		else 	
+			return EnumStorage[Enum[SubEnum]][string.unpack("I2",EnumValue)]	
+		end
+	end,
+	-- Normal Conversion 
  	["ColorSequence"] = function(isClass,ColorSequenceValue) 
 		if isClass then 
 			local encodeStr = ""
@@ -52,7 +68,6 @@ return {
 				local ColorKeypoint = v 
 				local C3 = ColorKeypoint.Value
 				local r, g, b = math.floor(C3.R*255), math.floor(C3.G*255), math.floor(C3.B*255)
-				print(r,g,b)
 				local block =  string.pack("f I1 I1 I1",ColorKeypoint.Time,r,g,b) --  further optimizations are possible to store
 				encodeStr=encodeStr..block 
 			end

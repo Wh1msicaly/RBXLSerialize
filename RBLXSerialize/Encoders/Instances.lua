@@ -3,6 +3,20 @@ local allowed = require(script.Parent.Parent.Allowed )
 local instanceFunc = require(script.Parent.Instance)
 local Binary = require(script.Parent.Parent.Binary)
 return function(API,instance) 
+
+	if API.AutoRename then 
+		local ParentNameIndex = {}
+		for i,v in ipairs(instance:GetDescendants()) do 
+			ParentNameIndex[v.Name] = ParentNameIndex[v.Name] or {} 
+			ParentNameIndex[v.Name][v.Parent] = ParentNameIndex[v.Name][v.Parent] or -1
+			ParentNameIndex[v.Name][v.Parent] = ParentNameIndex[v.Name][v.Parent]+1
+			local ParentNameOccurance = ParentNameIndex[v.Name][v.Parent]
+			if ParentNameOccurance > 0 then 
+				v.Name = v.Name..ParentNameOccurance
+			end 
+		end
+	end
+	
 	local instances = instance 
 	local allowedTable = allowed[instance.ClassName]
 	local RootString = Binary.describe("StoreType","Root")

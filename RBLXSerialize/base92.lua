@@ -2,7 +2,6 @@ local MAKE_JSON_SAFE = false -- If this is true, " will be replaced by ' in the 
 
 local CHAR_SET = [[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$%&()*+,./:;<=>?@[]^_`{|}~"]]
 
-
 local encode_CharSet = {}
 local decode_CharSet = {}
 for i = 1, 91 do

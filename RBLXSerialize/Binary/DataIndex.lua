@@ -186,7 +186,8 @@ return {
 		["WedgePart"] = 176,
 		["Weld"] = 177,
 		["WeldConstraint"] = 179,
-
+		-- Additions
+		["Attachment"] = 180, 
 		-- EXTRAS 
 		["BasePart"] = 250,
 		-- FINSHED! Can add more latert! [255-251] SpecaialValues
