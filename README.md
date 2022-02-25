@@ -75,5 +75,8 @@ Default number type is float, unless specified as other than 'number'.
 2. No backwards compatability or version/identification header.
 3. Inability to differentiate instances with the same name.
 
+## Libaries used
+
+https://github.com/Rochet2/lualzw
 
 .
